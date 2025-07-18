@@ -1,0 +1,79 @@
+---
+title: ""
+format: dashboard
+theme: flatly
+---
+
+```{r}
+#load packages
+library(tidyverse)
+library(plotly)
+library(bslib)
+library(bsicons)
+library(shiny)
+library(svglite)
+library(zoo)
+
+#load data
+superstore<-read.csv("https://raw.githubusercontent.com/bernardkilonzo-rigor/dataviz/main/data/Sample%20-%20Superstore.csv")
+
+#computing KPIs
+sales<-superstore%>%summarise(round(sum(Sales),0))
+profit<-superstore%>%summarise(round(sum(Profit),0))
+discount<-superstore%>%summarise(round(mean(Discount),2))
+quantity<-superstore%>%summarise(round(sum(Discount),0))
+
+#modifying the data set
+superstore<-superstore%>%
+  mutate(Order.Date =dmy(Order.Date))%>%
+  mutate(Month =as.yearmon(Order.Date))
+
+#creating bar plot
+bar_plot<-superstore%>%group_by(Month)%>%
+  summarise(Total_Sales = round(sum(Sales),0))%>%
+  ggplot(aes(x = Month, y = Total_Sales))+
+  geom_bar(stat = "identity", fill ="#0B538E")+
+  labs(title = "Total Sales by Month",
+       x = "Month", y ="Total Sales")+
+  theme(panel.background = element_blank(),
+        axis.line = element_line(color = "gray60",linewidth = 0.1),
+        axis.ticks = element_line(color = "gray60", linewidth = 0.1),
+        axis.text = element_text(family = "serif",color = "gray40", size = 9),
+        axis.title =element_text(family = "serif",color = "gray30", size = 9),
+        plot.title = element_text(family = "serif", face = "bold", size = 12, color = "gray25"))
+
+```
+
+## row 1 {height =20%}
+
+```{r}
+value_box(
+  title = "Total Sales",
+  value = sales,
+  showcase = bsicons::bs_icon("Cart4"),
+  theme = value_box_theme(bg = "#e6f2fd", fg = "#0B538E")
+)
+```
+
+```{r}
+value_box(
+  title = "Total Profit",
+  value = profit,
+  showcase = bsicons::bs_icon("coin"),
+  theme = value_box_theme(bg = "#e6f2fd", fg = "#0B538E")
+)
+```
+
+```{r}
+value_box(
+  title = "Average Discount",
+  value = discount,
+  showcase = bsicons::bs_icon("wallet"),
+  theme = value_box_theme(bg = "#e6f2fd", fg = "#0B538E")
+)
+```
+
+## row 2 {height=80%}
+```{r}
+ggplotly(bar_plot)
+```

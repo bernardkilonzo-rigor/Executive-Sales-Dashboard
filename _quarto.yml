@@ -1,0 +1,23 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Executive Sales Dashboard"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Stats
+      - href: about.qmd
+        text: Data
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+    toc: true
+
+
+

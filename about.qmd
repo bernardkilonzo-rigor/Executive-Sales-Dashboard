@@ -1,0 +1,7 @@
+---
+title: ""
+---
+
+This dashboard is generated using the Sample - Superstore data set, a widely used demo data set provided by Tableau to help users learn and practice data visualization and analysis. It simulates a fictional retail business and contains rich, structured data ideal for honing data analysis and visualization skills.
+
+Download Data: [Sample - Superstore](https://raw.githubusercontent.com/bernardkilonzo-rigor/dataviz/main/data/Sample%20-%20Superstore.csv)
